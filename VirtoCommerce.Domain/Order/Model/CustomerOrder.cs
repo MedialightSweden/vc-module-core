@@ -22,7 +22,7 @@ namespace VirtoCommerce.Domain.Order.Model
         /// The basis shopping cart id of which the order was created
         /// </summary>
         public string ShoppingCartId { get; set; }
-    
+
         /// <summary>
         /// Flag determines that the order is the prototype
         /// </summary>
@@ -35,12 +35,12 @@ namespace VirtoCommerce.Domain.Order.Model
         /// Identifier for subscription  associated with this order
         /// </summary>
         public string SubscriptionId { get; set; }
- 
-		public ICollection<Address> Addresses { get; set; }
-		public ICollection<PaymentIn> InPayments { get; set; }
 
-		public ICollection<LineItem> Items { get; set; }
-		public ICollection<Shipment> Shipments { get; set; }
+        public ICollection<Address> Addresses { get; set; }
+        public ICollection<PaymentIn> InPayments { get; set; }
+
+        public ICollection<LineItem> Items { get; set; }
+        public ICollection<Shipment> Shipments { get; set; }
 
         public ICollection<string> ShippingInfo
         {
@@ -60,7 +60,7 @@ namespace VirtoCommerce.Domain.Order.Model
 
                     info.Add($@"{shipmentAddress.Line1}");
 
-                    info.Add($@"{shipmentAddress.Zip} {shipmentAddress.City}");
+                    info.Add($@"{shipmentAddress.PostalCode ?? shipmentAddress.Zip} {shipmentAddress.City}");
 
                     info.Add($@"{shipmentAddress.CountryName}");
                 }
@@ -79,7 +79,7 @@ namespace VirtoCommerce.Domain.Order.Model
         /// For instance, if the cart subtotal is $100, and $15 is the tax subtotal, a cart-wide discount of 10% will yield a total of $105 ($100 subtotal – $10 discount + $15 tax on the original $100).
         /// </summary>
 		public decimal DiscountAmount { get; set; }
-      
+
         #region ITaxDetailSupport Members
 
         public ICollection<TaxDetail> TaxDetails { get; set; }
@@ -193,7 +193,7 @@ namespace VirtoCommerce.Domain.Order.Model
                 return retVal;
             }
         }
-      
+
         public virtual decimal ShippingSubTotal
         {
             get
@@ -390,7 +390,7 @@ namespace VirtoCommerce.Domain.Order.Model
                     retVal += InPayments.Sum(x => x.DiscountAmountWithTax);
                 }
                 return retVal;
-            }         
+            }
         }
 
 
@@ -463,7 +463,7 @@ namespace VirtoCommerce.Domain.Order.Model
                     retVal += InPayments.Sum(x => x.TaxTotal);
                 }
                 return retVal;
-            }        
+            }
         }
 
         public decimal TaxPercentRate { get; set; }
