@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using VirtoCommerce.Domain.Commerce.Model;
 using VirtoCommerce.Platform.Core.Common;
@@ -42,6 +42,32 @@ namespace VirtoCommerce.Domain.Order.Model
 		public ICollection<LineItem> Items { get; set; }
 		public ICollection<Shipment> Shipments { get; set; }
 
+        public ICollection<string> ShippingInfo
+        {
+            get
+            {
+                List<string> info = new List<string>();
+
+                if (Addresses != null && Addresses.Count > 0 && Addresses.Any(address => address.AddressType == AddressType.Shipping))
+                {
+                    Address shipmentAddress = Addresses.First(address => address.AddressType == AddressType.Shipping);
+
+                    info.Add($@"{shipmentAddress.FirstName} {shipmentAddress.LastName}");
+
+                    info.Add($@"{shipmentAddress.Email}");
+
+                    info.Add($@"{shipmentAddress.Phone}");
+
+                    info.Add($@"{shipmentAddress.Line1}");
+
+                    info.Add($@"{shipmentAddress.Zip} {shipmentAddress.City}");
+
+                    info.Add($@"{shipmentAddress.CountryName}");
+                }
+
+                return info;
+            }
+        }
 
         #region IHasDiscounts
         public ICollection<Discount> Discounts { get; set; }
